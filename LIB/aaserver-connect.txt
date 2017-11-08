@@ -1,0 +1,18 @@
+/* OPTIONS &OPT_OFF; */
+
+OPTIONS NONOTES NOSOURCE; 
+
+%LET AASERVER=rmsasp01.tul.aa.com 7551;
+
+OPTIONS REMOTE=AASERVER COMAMID=TCP;
+%let connect_script = %unquote(%bquote(')&SRC_PATH\LIB\aapass.scr%bquote('));
+FILENAME RLINK &connect_script;
+
+SIGNON AASERVER;
+LIBNAME RWORK REMOTE SLIBREF = WORK SERVER=AASERVER;
+RUN;
+
+%syslput server_dbpass=&db_pass;
+
+OPTIONS &opt_str;  
+
